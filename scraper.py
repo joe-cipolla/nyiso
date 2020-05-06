@@ -7,8 +7,6 @@ import zipfile
 import pandas as pd
 
 
-
-
 def scrape_data(start_date, end_date, root_path, data_types):
     """
     :param start_date:
@@ -18,60 +16,40 @@ def scrape_data(start_date, end_date, root_path, data_types):
     :return:
     """
 
+    query_date_range = pd.date_range(start=start_date, end=end_date, freq='MS')
+
     for data_type in data_types:
 
-        # download archived zip files
-        y = 2000
-        while y < 2020:
-            m = 1
-            while m < 13:
-                tag = str(y) + str(m).zfill(2) + '01' + data_type + '_zone_csv.zip'
-                url = 'http://mis.nyiso.com/public/csv/' + data_type + '/' + tag
-                my_file = requests.get(url)
-                open(root_path + data_type + '/' + tag, 'wb').write(my_file.content)
-                print('downloaded ' + tag)
-                m += 1
-            y += 1
+        data_dir = root_path + data_type + '/'
 
-        # unzip each file
-        y = 2000
-        while y < 2020:
-            m = 1
-            while m < 13:
-                tag = str(y) + str(m).zfill(2) + '01' + data_type + '_zone_csv.zip'
-                with zipfile.ZipFile(root_path + data_type + '/' + tag, 'r') as zip_ref:
-                    zip_ref.extractall(root_path + data_type + '/' + tag)
-                print('unzipped ' + tag)
-                m += 1
-            y += 1
+        for query_date in query_date_range:
 
-        # delete zip files
-        y = 2000
-        while y < 2020:
-            m = 1
-            while m < 13:
-                tag = str(y) + str(m).zfill(2) + '01' + data_type + '_zone_csv.zip'
-                file_path = root_path + data_type + '/' + tag
-                if os.path.isfile(file_path):
-                    os.remove(file_path)
-                    print(tag)
-                m += 1
-            y += 1
+            # download archived zip files
+            tag = str(query_date.year) + str(query_date.month).zfill(2) + '01' + data_type + '_zone_csv.zip'
 
-        # move files from zip directories to data_type directory
-        y = 2001
-        while y < 2020:
-            m = 1
-            while m < 13:
-                tag = str(y) + str(m).zfill(2) + '01' + data_type + '_zone_csv'
-                dir_ = root_path + data_type + '/' + tag + '/'
-                if os.path.isdir(dir_):
-                    for file_ in os.listdir(dir_):
-                        os.rename(dir_ + file_, root_path + data_type + '/' + file_.split('/')[-1])
-                    shutil.rmtree(dir_)
-                    print(tag)
-                m += 1
-            y += 1
+            url = 'http://mis.nyiso.com/public/csv/' + data_type + '/' + tag
+            my_file = requests.get(url)
+            open(data_dir + tag, 'wb').write(my_file.content)
+            print('downloaded ' + tag)
+
+            # unzip each file
+            with zipfile.ZipFile(data_dir + tag, 'r') as zip_ref:
+                zip_ref.extractall(data_dir + tag)
+            print('unzipped ' + tag)
+
+            # delete zip file
+            if os.path.isfile(data_dir + tag):
+                os.remove(data_dir + tag)
+                print('deleted ' + tag)
+
+            # move files from zip directories to data_type directory
+            tag = tag[:-3]
+            dir_ = root_path + data_type + '/' + tag + '/'
+            if os.path.isdir(dir_):
+                for file_ in os.listdir(dir_):
+                    os.rename(dir_ + file_, root_path + data_type + '/' + file_.split('/')[-1])
+                shutil.rmtree(dir_)
+                print('archived ' + tag)
 
 
 if __name__ == '__main__':
