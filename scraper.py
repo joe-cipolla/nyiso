@@ -8,6 +8,7 @@ import pandas as pd
 
 
 
+
 def scrape_data(start_date, end_date, root_path, data_types):
     """
     :param start_date:
