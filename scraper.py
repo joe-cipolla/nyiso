@@ -9,8 +9,8 @@ import pandas as pd
 
 # template -> 'data_type': ['archive_folder_name', 'oldest_available_archive_date']
 url_file_name_map = {
-    'realtime': ['realtime_csv', '1999-11-01'],
-    'damlbmp': ['damlbmp_csv', '1999-11-01'],
+    'realtime': ['realtime_zone_csv', '1999-11-01'],
+    'damlbmp': ['damlbmp_zone_csv', '1999-11-01'],
     'rtasp': ['rtasp_csv', '2005-02-01'],
     'damasp': ['damasp_csv', '1999-11-01'],
     'schedlineoutages': ['SCLineOutages_csv', '2002-07-01'],
