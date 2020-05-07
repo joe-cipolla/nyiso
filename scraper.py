@@ -2,40 +2,39 @@
 
 import requests
 import os
-import shutil
 import zipfile
 import pandas as pd
 
 
-# template -> 'data_type': ['archive_folder_name', 'oldest_available_archive_date']
+# template -> 'data_type': ['archive_folder_name', 'oldest_available_archive_date', 'file_type', 'url_tag']
 url_file_name_map = {
-    'realtime': ['realtime_zone_csv', '1999-11-01'],
-    'damlbmp': ['damlbmp_zone_csv', '1999-11-01'],
-    'rtasp': ['rtasp_csv', '2005-02-01'],
-    'damasp': ['damasp_csv', '1999-11-01'],
-    'schedlineoutages': ['SCLineOutages_csv', '2002-07-01'],
-    'realtimelineoutages': ['RTLineOutages_csv', '2008-11-01'],
-    'outSched': ['outSched_csv', '2001-12-01'],
-    'DAMLimitingConstraints': ['DAMLimitingConstraints_csv', '2001-08-01'],
-    'LimitingConstraints': ['LimitingConstraints_csv', '2002-07-01'],
-    'ExternalLimitsFlows': ['ExternalLimitsFlows_csv', '2002-07-01'],
-    'eriecirculationda': ['eriecirculationda_csv', '2009-05-01'],
-    'eriecirculationrt': ['eriecirculationrt_csv', '2009-04-01'],
-    'parSchedule': ['parSchedule_txt', '2001-08-01'],
-    'parflows': ['parflows_csv', '2001-06-01'],
-    'atc_ttc': ['atc_ttc_csv', '1999-11-01'],
-    'ttcf': ['ttcf_csv', '2012-10-01'],
-    'isolf': ['isolf_csv', '1999-11-01'],
-    'zonalBidLoad': ['zonalBidLoad_csv', '2001-06-01'],
-    'lfweather': ['lfweather', '2008-09-01'],
-    'pal': ['pal_csv', '2001-05-01'],
-    'damenergy': ['DAM_energy_rep_csv', '2000-09-01'],
-    'capacityreport': ['CapacityReport', '2003-08-01'],
-    'hamenergy': ['HAM_energy_rep_csv', '2000-09-01'],
-    'RealTimeEvents': ['RealTimeEvents_csv', '2001-06-01'],
-    'rtfuelmix': ['rtfuelmix_csv', '2015-12-01'],
-    'OperMessages': ['OperMessages_csv', '2000-01-01'],
-    'OpInCommit': ['OpInCommit_csv', '2019-06-01'],
+    'realtime': ['realtime_zone', '1999-11-01', 'csv', ''],
+    'damlbmp': ['damlbmp_zone', '1999-11-01', 'csv', ''],
+    'rtasp': ['rtasp', '2005-02-01', 'csv', ''],
+    'damasp': ['damasp', '1999-11-01', 'csv', ''],
+    'schedlineoutages': ['SCLineOutages', '2002-07-01', 'csv', ''],
+    'realtimelineoutages': ['RTLineOutages', '2008-11-01', 'csv', ''],
+    'outSched': ['outSched', '2001-12-01', 'csv', ''],
+    'DAMLimitingConstraints': ['DAMLimitingConstraints', '2001-08-01', 'csv', ''],
+    'LimitingConstraints': ['LimitingConstraints', '2002-07-01', 'csv', ''],
+    'ExternalLimitsFlows': ['ExternalLimitsFlows', '2002-07-01', 'csv', ''],
+    'eriecirculationda': ['ErieCirculationDA', '2009-05-01', 'csv', ''],
+    'eriecirculationrt': ['ErieCirculationRT', '2009-04-01', 'csv', ''],
+    'parSchedule': ['parSchedule', '2001-08-01', 'txt', ''],
+    'ParFlows': ['ParFlows', '2001-06-01', 'csv', ''],
+    'atc_ttc': ['atc_ttc', '1999-11-01', 'csv', ''],
+    'ttcf': ['ttcf', '2014-10-01', 'csv', 'zip/'],
+    'isolf': ['isolf', '1999-11-01', 'csv', ''],
+    'zonalBidLoad': ['zonalBidLoad', '2001-06-01', 'csv', ''],
+    'lfweather': ['lfweather', '2008-09-01', 'csv', ''],
+    'pal': ['pal', '2001-05-01', 'csv', ''],
+    'damenergy': ['DAM_energy_rep', '2000-09-01', 'csv', ''],
+    'capacityreport': ['CapacityReport', '2003-08-01', 'htm', ''],
+    'hamenergy': ['HAM_energy_rep', '2000-09-01', 'csv', ''],
+    'RealTimeEvents': ['RealTimeEvents', '2001-06-01', 'csv', ''],
+    'rtfuelmix': ['rtfuelmix', '2015-12-01', 'csv', ''],
+    'OperMessages': ['OperMessages', '2000-01-01', 'csv', ''],
+    'OpInCommit': ['OpInCommit', '2019-06-01', 'csv', ''],
 }
 
 
@@ -52,6 +51,8 @@ def scrape_data(start_date, end_date, root_path, data_types):
 
         data_dir = root_path + data_type + '/'
         data_file_name = url_file_name_map[data_type][0]
+        data_file_type = url_file_name_map[data_type][2]
+        url_tag = url_file_name_map[data_type][3]
 
         if pd.to_datetime(start_date) < pd.to_datetime(url_file_name_map[data_type][1]):
             start_date = url_file_name_map[data_type][1]
@@ -60,9 +61,13 @@ def scrape_data(start_date, end_date, root_path, data_types):
         for query_date in query_date_range:
 
             # download archived zip files
-            tag = str(query_date.year) + str(query_date.month).zfill(2) + '01' + data_file_name + '.zip'
-
-            url = 'http://mis.nyiso.com/public/csv/' + data_type + '/' + tag
+            if data_type == 'capacityreport':
+                tag = str(query_date.year) + str(query_date.month).zfill(2) + '01' + data_file_name + '.zip'
+                url = 'http://mis.nyiso.com/public/htm/' + data_type + '/zip/' + tag
+            else:
+                tag = str(query_date.year) + str(query_date.month).zfill(2) + '01' \
+                      + data_file_name + '_' + data_file_type + '.zip'
+                url = 'http://mis.nyiso.com/public/' + data_file_type + '/' + data_type + '/' + url_tag + tag
             my_file = requests.get(url)
             open(data_dir + tag, 'wb').write(my_file.content)
             print('downloaded ' + tag)
@@ -79,6 +84,15 @@ def scrape_data(start_date, end_date, root_path, data_types):
 
 
 if __name__ == '__main__':
-    scrape_data(start_date='2002-07-01', end_date='2020-05-01',
+    scrape_data(start_date='2002-01-01', end_date='2020-05-01',
                 root_path='/Users/joecipolla/Dropbox/Reference/Project_Seldon/Data/NYISO/',
-                data_types=['realtime', 'damlbmp', 'rtasp', 'damasp', ])  # ['realtime', 'damlbmp']
+                data_types=['rtfuelmix', 'OperMessages', 'OpInCommit'])
+
+    # ['realtime', 'damlbmp']   'schedlineoutages',
+
+    # 'parSchedule', 'parflows', 'atc_ttc', 'ttcf', 'isolf', 'zonalBidLoad', 'lfweather', 'pal',
+    # 'damenergy', 'capacityreport', 'hamenergy', 'RealTimeEvents', 'rtfuelmix', 'OperMessages',
+    # 'OpInCommit'
+
+    # , 'rtfuelmix', 'OperMessages', 'OpInCommit'
+
