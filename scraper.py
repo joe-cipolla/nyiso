@@ -6,8 +6,8 @@ import zipfile
 import pandas as pd
 
 
-# template -> 'data_type': ['archive_folder_name', 'oldest_available_archive_date', 'file_type', 'url_tag']
 url_file_name_map = {
+    # 'data_type': ['archive_folder_name', 'oldest_available_archive_date', 'file_type', 'url_tag']
     'realtime': ['realtime_zone', '1999-11-01', 'csv', ''],
     'damlbmp': ['damlbmp_zone', '1999-11-01', 'csv', ''],
     'rtasp': ['rtasp', '2005-02-01', 'csv', ''],
@@ -87,12 +87,3 @@ if __name__ == '__main__':
     scrape_data(start_date='2002-01-01', end_date='2020-05-01',
                 root_path='/Users/joecipolla/Dropbox/Reference/Project_Seldon/Data/NYISO/',
                 data_types=['rtfuelmix', 'OperMessages', 'OpInCommit'])
-
-    # ['realtime', 'damlbmp']   'schedlineoutages',
-
-    # 'parSchedule', 'parflows', 'atc_ttc', 'ttcf', 'isolf', 'zonalBidLoad', 'lfweather', 'pal',
-    # 'damenergy', 'capacityreport', 'hamenergy', 'RealTimeEvents', 'rtfuelmix', 'OperMessages',
-    # 'OpInCommit'
-
-    # , 'rtfuelmix', 'OperMessages', 'OpInCommit'
-
