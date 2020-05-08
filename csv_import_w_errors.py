@@ -4,7 +4,7 @@ from flask import render_template # render the error page
 
 
 app = Flask(__name__)
-@app.route("/")
+# @app.route("/")
 
 # connect to database
 t_host = 'localhost'
