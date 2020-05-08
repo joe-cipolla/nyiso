@@ -1,7 +1,11 @@
-"""global variables"""
-
-
 root_dir = '/Users/joecipolla/Dropbox/Reference/Project_Seldon/Data/NYISO/'
+
+# database connection parameters
+t_host = 'localhost'
+t_port = '5432'
+t_dbname = 'seldon'
+t_user = 'admin'
+t_pw = 'admin'
 
 url_file_name_map = {
     # 'data_type': ['archive_folder_name', 'oldest_available_archive_date', 'file_type', 'url_tag']
@@ -32,4 +36,15 @@ url_file_name_map = {
     'rtfuelmix': ['rtfuelmix', '2015-12-01', 'csv', ''],
     'OperMessages': ['OperMessages', '2000-01-01', 'csv', ''],
     'OpInCommit': ['OpInCommit', '2019-06-01', 'csv', ''],
+}
+
+sql_insert_map = {
+    'da_lmp': '''INSERT INTO da_lmp (date_id, zone_id, he01, he02, he03, he04, he05, he06, he07, he08, he09, he10,
+         he11, he12, he13, he14, he15, he16, he17, he18, he19, he20, he21, he22, he23, he24)
+         VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) 
+         RETURNING id;'''
+}
+
+sql_drop_map = {
+    'da_lmp': '''DELETE FROM da_lmp WHERE id = %s;'''
 }

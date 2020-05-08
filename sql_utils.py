@@ -1,26 +1,8 @@
 """sql worker functions and queries"""
 
 import psycopg2
+import nyiso_sql.global_vars as gvars
 
-
-# database connection parameters
-t_host = 'localhost'
-t_port = '5432'
-t_dbname = 'seldon'
-t_user = 'admin'
-t_pw = 'admin'
-
-
-sql_insert_map = {
-    'da_lmp': '''INSERT INTO da_lmp (date_id, zone_id, he01, he02, he03, he04, he05, he06, he07, he08, he09, he10,
-         he11, he12, he13, he14, he15, he16, he17, he18, he19, he20, he21, he22, he23, he24)
-         VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) 
-         RETURNING id;'''
-}
-
-sql_drop_map = {
-    'da_lmp': '''DELETE FROM da_lmp WHERE id = %s;'''
-}
 
 conn_closed_msg = "PostgreSQL connection is close."
 
@@ -34,10 +16,11 @@ def insert_row(table_name, record, conn=None, pkey_id=None, cur=None):
     :param cur - db cursor
     """
 
-    sql = sql_insert_map[table_name]
+    sql = gvars.sql_insert_map[table_name]
 
     try:
-        conn = psycopg2.connect(host=t_host, port=t_port, dbname=t_dbname, user=t_user, password=t_pw)
+        conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
+                                user=gvars.t_user, password=gvars.t_pw)
         cur = conn.cursor()
         cur.execute(sql, record)
         pkey_id = cur.fetchone()[0]
@@ -61,10 +44,11 @@ def bulk_insert_rows(table_name, records, conn=None, cur=None):
     :param cur - db cursor
     """
 
-    sql = sql_insert_map[table_name]
+    sql = gvars.sql_insert_map[table_name]
 
     try:
-        conn = psycopg2.connect(host=t_host, port=t_port, dbname=t_dbname, user=t_user, password=t_pw)
+        conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
+                                user=gvars.t_user, password=gvars.t_pw)
         cur = conn.cursor()
         cur.executemany(sql, records)
         conn.commit()
@@ -86,10 +70,11 @@ def drop_row(table_name, row_id, conn=None, cur=None):
     :param cur - db cursor
     """
 
-    sql = sql_drop_map[table_name]
+    sql = gvars.sql_drop_map[table_name]
     
     try:
-        conn = psycopg2.connect(host=t_host, port=t_port, dbname=t_dbname, user=t_user, password=t_pw)
+        conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
+                                user=gvars.t_user, password=gvars.t_pw)
         cur = conn.cursor()
         cur.execute(sql, (row_id, ))
         conn.commit()
@@ -111,10 +96,11 @@ def bulk_drop_rows(table_name, row_ids, conn=None, cur=None):
     :param cur - db cursor
     """
 
-    sql = sql_drop_map[table_name]
+    sql = gvars.sql_drop_map[table_name]
     
     try:
-        conn = psycopg2.connect(host=t_host, port=t_port, dbname=t_dbname, user=t_user, password=t_pw)
+        conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
+                                user=gvars.t_user, password=gvars.t_pw)
         cur = conn.cursor()
         cur.executemany(sql, row_ids)
         conn.commit()
