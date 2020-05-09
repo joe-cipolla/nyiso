@@ -112,7 +112,130 @@ def bulk_drop_rows(table_name, row_ids, conn=None, cur=None):
             cur.close()
             conn.close()
             print(conn_closed_msg)
-   
+
+
+def lookup_zone_name(zone_id, conn=None, cur=None):
+
+    sql = """SELECT zone FROM dim_zone WHERE id = %s"""
+
+    try:
+        conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
+                                user=gvars.t_user, password=gvars.t_pw)
+        cur = conn.cursor()
+        cur.execute(sql, (zone_id, ))
+        zone_name = cur.fetchall()[0][0]
+    except (Exception, psycopg2.Error) as error:
+        print("Error in Select operation", error)
+    finally:
+        if conn:
+            cur.close()
+            conn.close()
+
+    return zone_name
+
+
+def lookup_zone_id(zone_name, conn=None, cur=None):
+
+    sql = """SELECT id FROM dim_zone WHERE zone = %s"""
+
+    try:
+        conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
+                                user=gvars.t_user, password=gvars.t_pw)
+        cur = conn.cursor()
+        cur.execute(sql, (zone_name, ))
+        zone_id = cur.fetchall()[0][0]
+    except (Exception, psycopg2.Error) as error:
+        print("Error in Select operation", error)
+    finally:
+        if conn:
+            cur.close()
+            conn.close()
+
+    return zone_id
+
+
+def lookup_zone_id_with_iso_zone_name(zone_name, conn=None, cur=None):
+
+    sql = """SELECT id FROM dim_zone WHERE iso_zone_name = %s"""
+
+    try:
+        conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
+                                user=gvars.t_user, password=gvars.t_pw)
+        cur = conn.cursor()
+        cur.execute(sql, (zone_name, ))
+        zone_id = cur.fetchall()[0][0]
+    except (Exception, psycopg2.Error) as error:
+        print("Error in Select operation", error)
+    finally:
+        if conn:
+            cur.close()
+            conn.close()
+
+    return zone_id
+
+
+def lookup_iso_id(zone_name, conn=None, cur=None):
+
+    sql = """SELECT iso_id FROM dim_zone WHERE zone = %s"""
+
+    try:
+        conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
+                                user=gvars.t_user, password=gvars.t_pw)
+        cur = conn.cursor()
+        cur.execute(sql, (zone_name, ))
+        iso_id = cur.fetchall()[0][0]
+    except (Exception, psycopg2.Error) as error:
+        print("Error in Select operation", error)
+    finally:
+        if conn:
+            cur.close()
+            conn.close()
+
+    return iso_id
+
+
+def lookup_iso_name(iso_id, conn=None, cur=None):
+
+    sql = """SELECT iso FROM dim_iso WHERE id = %s"""
+
+    try:
+        conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
+                                user=gvars.t_user, password=gvars.t_pw)
+        cur = conn.cursor()
+        cur.execute(sql, (iso_id, ))
+        iso_name = cur.fetchall()[0][0]
+    except (Exception, psycopg2.Error) as error:
+        print("Error in Select operation", error)
+    finally:
+        if conn:
+            cur.close()
+            conn.close()
+
+    return iso_name
+
+
+def lookup_date_id(date, conn=None, cur=None):
+    """
+    :param date - str, YYYY-MM-DD format
+    """
+
+    sql = """SELECT id FROM dim_date WHERE date = %s"""
+
+    try:
+        conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
+                                user=gvars.t_user, password=gvars.t_pw)
+        cur = conn.cursor()
+        cur.execute(sql, (date, ))
+        date_id = cur.fetchall()[0][0]
+    except (Exception, psycopg2.Error) as error:
+        print("Error in Select operation", error)
+    finally:
+        if conn:
+            cur.close()
+            conn.close()
+
+    return date_id
+
 
 if __name__ == '__main__':
     insert_row(
