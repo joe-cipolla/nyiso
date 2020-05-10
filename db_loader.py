@@ -36,7 +36,7 @@ def reformat_damlbmp(df):
     df.index.name = None
 
     df_date = pd.to_datetime(df.columns[0]).strftime('%Y-%m-%d')
-    # date_id = qutil.lookup_date_id(df_date)
+    # date_id = qutil.lookup_value_in_table('date_id', df_date)
     date_id = 1
 
     records = []
@@ -45,7 +45,7 @@ def reformat_damlbmp(df):
         i_record = df.iloc[0, :].values.tolist()
         zone_name = df.index[i]
         print(zone_name)
-        zone_id = qutil.lookup_zone_id_with_iso_zone_name(zone_name)
+        zone_id = qutil.lookup_value_in_table('zone_id_with_iso_zone_name', zone_name)
         i_record.insert(0, zone_id)
         i_record.insert(0, date_id)
         records.append(tuple(i_record))

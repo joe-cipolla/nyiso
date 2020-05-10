@@ -37,7 +37,7 @@ def insert_row(table_name, record, conn=None, pkey_id=None, cur=None):
 
 
 def bulk_insert_rows(table_name, records, conn=None, cur=None):
-    """drops all rows from table matching row_ids
+    """ inserts multiple rows into table
     :param table_name - string
     :param records - list of tuples, each with length = number of columns in table
     :param conn - db connection
@@ -114,119 +114,24 @@ def bulk_drop_rows(table_name, row_ids, conn=None, cur=None):
             print(conn_closed_msg)
 
 
-def lookup_zone_name(zone_id, conn=None, cur=None):
-
-    sql = """SELECT zone FROM dim_zone WHERE id = %s"""
-
-    try:
-        conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
-                                user=gvars.t_user, password=gvars.t_pw)
-        cur = conn.cursor()
-        cur.execute(sql, (zone_id, ))
-        zone_name = cur.fetchall()[0][0]
-    except (Exception, psycopg2.Error) as error:
-        print("Error in Select operation", error)
-    finally:
-        if conn:
-            cur.close()
-            conn.close()
-
-    return zone_name
-
-
-def lookup_zone_id(zone_name, conn=None, cur=None):
-
-    sql = """SELECT id FROM dim_zone WHERE zone = %s"""
-
-    try:
-        conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
-                                user=gvars.t_user, password=gvars.t_pw)
-        cur = conn.cursor()
-        cur.execute(sql, (zone_name, ))
-        zone_id = cur.fetchall()[0][0]
-    except (Exception, psycopg2.Error) as error:
-        print("Error in Select operation", error)
-    finally:
-        if conn:
-            cur.close()
-            conn.close()
-
-    return zone_id
-
-
-def lookup_zone_id_with_iso_zone_name(zone_name, conn=None, cur=None):
-
-    sql = """SELECT id FROM dim_zone WHERE iso_zone_name = %s"""
-
-    try:
-        conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
-                                user=gvars.t_user, password=gvars.t_pw)
-        cur = conn.cursor()
-        cur.execute(sql, (zone_name, ))
-        zone_id = cur.fetchall()[0][0]
-    except (Exception, psycopg2.Error) as error:
-        print("Error in Select operation", error)
-    finally:
-        if conn:
-            cur.close()
-            conn.close()
-
-    return zone_id
-
-
-def lookup_iso_id(zone_name, conn=None, cur=None):
-
-    sql = """SELECT iso_id FROM dim_zone WHERE zone = %s"""
-
-    try:
-        conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
-                                user=gvars.t_user, password=gvars.t_pw)
-        cur = conn.cursor()
-        cur.execute(sql, (zone_name, ))
-        iso_id = cur.fetchall()[0][0]
-    except (Exception, psycopg2.Error) as error:
-        print("Error in Select operation", error)
-    finally:
-        if conn:
-            cur.close()
-            conn.close()
-
-    return iso_id
-
-
-def lookup_iso_name(iso_id, conn=None, cur=None):
-
-    sql = """SELECT iso FROM dim_iso WHERE id = %s"""
-
-    try:
-        conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
-                                user=gvars.t_user, password=gvars.t_pw)
-        cur = conn.cursor()
-        cur.execute(sql, (iso_id, ))
-        iso_name = cur.fetchall()[0][0]
-    except (Exception, psycopg2.Error) as error:
-        print("Error in Select operation", error)
-    finally:
-        if conn:
-            cur.close()
-            conn.close()
-
-    return iso_name
-
-
-def lookup_date_id(date, conn=None, cur=None):
+def lookup_value_in_table(lookup_type, lookup_input, conn=None, cur=None):
     """
-    :param date - str, YYYY-MM-DD format
+    :param lookup_type - str, value to be looked up in table
+    :param lookup_input - value to be mapped to find lookup value
+    :param conn - database connection
+    :param cur - connection cursor
+    :return lookup_value - str/int/etc.
     """
 
-    sql = """SELECT id FROM dim_date WHERE date = %s"""
+    sql = gvars.sql_lookup_map[lookup_type]
 
+    lookup_value = None
     try:
         conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
                                 user=gvars.t_user, password=gvars.t_pw)
         cur = conn.cursor()
-        cur.execute(sql, (date, ))
-        date_id = cur.fetchall()[0][0]
+        cur.execute(sql, (lookup_input, ))
+        lookup_value = cur.fetchall()[0][0]
     except (Exception, psycopg2.Error) as error:
         print("Error in Select operation", error)
     finally:
@@ -234,7 +139,7 @@ def lookup_date_id(date, conn=None, cur=None):
             cur.close()
             conn.close()
 
-    return date_id
+    return lookup_value
 
 
 if __name__ == '__main__':
