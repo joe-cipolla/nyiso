@@ -39,6 +39,14 @@ url_file_name_map = {
     'OpInCommit': ['OpInCommit', '2019-06-01', 'csv', '', '', 'tbd'],
 }
 
+url_file_column_map = {
+    'damlbmp': ['Time Stamp', 'Name', 'LBMP ($/MWHr)'],
+}
+
+select_datatype_by_date_id = {
+    'damlbmp': '''SELECT * FROM da_lmp WHERE date_id = %s'''
+}
+
 sql_insert_map = {
     'da_lmp': '''INSERT INTO da_lmp (date_id, zone_id, he01, he02, he03, he04, he05, he06, he07, he08, he09, he10,
                  he11, he12, he13, he14, he15, he16, he17, he18, he19, he20, he21, he22, he23, he24)
