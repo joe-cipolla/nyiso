@@ -22,7 +22,7 @@ setup(
     console_scripts=[''],
     packages=find_packages(),
     url='',
-    license='LICENSE.txt',
+    license='LICENSE.md',
     description='Library that scrapes, cleans, and loads NYISO data into PostgreSQL db.',
     long_description=open('README.md').read(),
     python_requires='>=3.7',
