@@ -36,12 +36,13 @@ def insert_row(table_name, record, conn=None, pkey_id=None, cur=None):
     return pkey_id
 
 
-def bulk_insert_rows(table_name, records, conn=None, cur=None):
+def bulk_insert_rows(table_name, records, conn=None, cur=None, print_msg=False):
     """ inserts multiple rows into table
     :param table_name - string
     :param records - list of tuples, each with length = number of columns in table
     :param conn - db connection
     :param cur - db cursor
+    :param print_msg - boolean, whether or not to print messages
     """
 
     sql = gvars.sql_insert_map[table_name]
@@ -52,14 +53,16 @@ def bulk_insert_rows(table_name, records, conn=None, cur=None):
         cur = conn.cursor()
         cur.executemany(sql, records)
         conn.commit()
-        print(cur.rowcount, "Record inserted successfully")
+        if print_msg:
+            print(cur.rowcount, "Record inserted successfully")
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
         if conn:
             cur.close()
             conn.close()
-            print(conn_closed_msg)
+            if print_msg:
+                print(conn_closed_msg)
 
 
 def drop_row(table_name, row_id, conn=None, cur=None):
@@ -115,7 +118,7 @@ def bulk_drop_rows(table_name, row_ids, conn=None, cur=None):
 
 
 def lookup_value_in_table(lookup_type, lookup_input, conn=None, cur=None):
-    """
+    """ looks up single value id or name from dim mapping tables, using sql queries in global_vars.py
     :param lookup_type - str, value to be looked up in table
     :param lookup_input - value to be mapped to find lookup value
     :param conn - database connection
