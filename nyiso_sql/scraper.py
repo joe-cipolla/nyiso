@@ -4,7 +4,7 @@ import requests
 import os
 import zipfile
 import pandas as pd
-import nyiso_sql.global_vars as gvars
+import nyiso_sql as gvars
 
 
 def scrape_data(start_date, end_date, root_path, data_types):

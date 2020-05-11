@@ -1,7 +1,7 @@
 """ loads csv/txt data files from disk into PostgreSQL database"""
 
-import nyiso_sql.sql_utils as qutil
-import nyiso_sql.global_vars as gvars
+import nyiso_sql as qutil
+import nyiso_sql as gvars
 import pandas as pd
 
 
