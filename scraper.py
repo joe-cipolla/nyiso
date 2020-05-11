@@ -53,6 +53,10 @@ def scrape_data(start_date, end_date, root_path, data_types):
 
 
 if __name__ == '__main__':
-    scrape_data(start_date='2002-01-01', end_date='2020-05-01',
+    scrape_data(start_date='2001-01-01', end_date='2001-12-31',
                 root_path=gvars.root_dir,
-                data_types=['rtfuelmix', 'OperMessages', 'OpInCommit'])
+                data_types=['realtime', 'damlbmp', 'rtasp', 'damasp', 'schedlineoutages', 'realtimelineoutages',
+                            'outSched', 'DAMLimitingConstraints', 'LimitingConstraints', 'ExternalLimitsFlows',
+                            'eriecirculationda', 'eriecirculationrt', 'parSchedule', 'ParFlows', 'atc_ttc', 'ttcf',
+                            'isolf', 'zonalBidLoad', 'lfweather', 'pal', 'damenergy', 'capacityreport', 'hamenergy',
+                            'RealTimeEvents', 'rtfuelmix', 'OperMessages', 'OpInCommit'])
