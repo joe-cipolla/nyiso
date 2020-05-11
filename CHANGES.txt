@@ -1,0 +1,16 @@
+# Changelog
+All notable changes to this project will be documented is this file.
+The format is based on [Keep a Changelog](https://keepchangelog.com/en/1.0.0/)
+
+
+## [0.0.1] - 2020-04-08
+### Added
+- db_loader.py able to load NYISO da_lmp csv files
+- scraper.py
+
+### Changed
+- global_vars.py
+- sql_utils.py
+
+### Fixed
+- dst he filling and deleting in db_loader.py
