@@ -2,8 +2,8 @@
 
 import psycopg2
 import pandas as pd
-import nyiso_sql.nyiso_sql.global_vars as gvars
-import nyiso_sql.nyiso_sql.gen_utils as gen_utils
+import nyiso_sql.global_vars as gvars
+import nyiso_sql.gen_utils as gen_utils
 
 
 default_zones = ['MHK_VL', 'CAPTIL', 'CENTRL', 'DUNWOD', 'GENESE', 'HQ', 'HUD_VL', 'LONGIL',

@@ -1,1 +1,1 @@
-import ptap.nyiso_sql
+import nyiso_sql

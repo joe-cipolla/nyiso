@@ -27,11 +27,11 @@ setup(
     long_description=open('README.md').read(),
     python_requires='>=3.7',
     install_requirements=[
-        'pandas', 'numpy', 'psycopg2'
+        'pandas', 'numpy', 'psycopg2', 'requests'
     ],
     classifiers=[
         "Programming language :: Python :: 3",
         "Operating System :: OS Independent"
     ],
-    keywords=['nyiso', 'PostgreSQL']
+    keywords=['power', 'nyiso', 'PostgreSQL']
 )
