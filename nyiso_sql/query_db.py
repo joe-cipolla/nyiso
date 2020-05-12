@@ -6,7 +6,7 @@ import nyiso_sql.global_vars as gvars
 import nyiso_sql.gen_utils as gen_utils
 
 
-default_zones = ['MHK_VL', 'CAPTIL', 'CENTRL', 'DUNWOD', 'GENESE', 'HQ', 'HUD_VL', 'LONGIL',
+default_zones = ['MHK_VL', 'CAPITL', 'CENTRL', 'DUNWOD', 'GENESE', 'HQ', 'HUD_VL', 'LONGIL',
                  'MILLWD', 'NYC', 'NORTH', 'NPX', 'OH', 'PJM', 'WEST']
 
 
@@ -39,13 +39,9 @@ def get_da_lmp(q_dates, zones=None):
     elif not isinstance(zones, list):
         raise ValueError('zones must be a single string or list of strings')
 
-    sql = '''   SELECT t.date, z.zone, d.he01, d.he01, d.he02, d.he03, d.he04, d.he05, d.he06, d.he07, d.he08, 
-                d.he09, d.he10, d.he11, d.he12, d.he13, d.he14, d.he15, d.he16, d.he17, d.he18, d.he19, d.he20, 
-                d.he21, d.he22, d.he23, d.he24 FROM da_lmp AS d
-                JOIN dim_date as t on d.date_id = t.id
-                JOIN dim_zone as z on d.zone_id = z.id
-                WHERE t.date in %s
-                AND z.zone in %s '''
+    sql = '''   SELECT * FROM vw_nyiso_da_lmp
+                WHERE date in %s
+                AND zone in %s '''
     conn = None
     try:
         conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
@@ -59,5 +55,5 @@ def get_da_lmp(q_dates, zones=None):
 
 
 if __name__ == '__main__':
-    q_df = get_da_lmp(['2020-05-01', '2020-05-07'], 'CAPTIL')
+    q_df = get_da_lmp(['2020-05-01', '2020-05-07'], 'CAPITL')
     print(q_df)
