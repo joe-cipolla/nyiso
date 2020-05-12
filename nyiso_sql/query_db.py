@@ -59,5 +59,5 @@ def get_da_lmp(q_dates, zones=None):
 
 
 if __name__ == '__main__':
-    df = get_da_lmp(['2020-05-01', '2020-05-07'], 'CAPITL')
-    print(df)
+    q_df = get_da_lmp(['2020-05-01', '2020-05-07'], 'CAPTIL')
+    print(q_df)

@@ -8,13 +8,11 @@ CREATE TABLE public.dim_zone
     CONSTRAINT fk_iso FOREIGN KEY (iso_id)
         REFERENCES public.dim_iso (id) MATCH SIMPLE
         ON UPDATE CASCADE
-        ON DELETE CASCADE
-        NOT VALID,
+        ON DELETE CASCADE,
     CONSTRAINT fk_state FOREIGN KEY (state_id)
         REFERENCES public.dim_state (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID
 )
 
 TABLESPACE pg_default;

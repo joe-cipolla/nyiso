@@ -154,6 +154,7 @@ def check_if_dst(date, conn=None):
     """
 
     sql = """SELECT * FROM vw_dst"""
+    dst = None
     try:
         conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
                                 user=gvars.t_user, password=gvars.t_pw)

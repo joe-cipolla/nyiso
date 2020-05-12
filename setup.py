@@ -27,7 +27,7 @@ setup(
     long_description=open('README.md').read(),
     python_requires='>=3.7',
     install_requires=[
-        'pandas', 'numpy', 'psycopg2', 'requests'
+        'pandas', 'numpy', 'psycopg2', 'requests', 'flask'
     ],
     classifiers=[
         "Programming language :: Python :: 3",
