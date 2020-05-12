@@ -7,9 +7,13 @@ def is_valid_date(date):
     """
     :param - str, YYYY-MM-DD
     """
-    year, month, day = date.split('-')
-
     is_valid = True
+
+    try:
+        year, month, day = date.split('-')
+    except ValueError:
+        return False
+
     try:
         datetime.datetime(int(year), int(month), int(day))
     except ValueError:

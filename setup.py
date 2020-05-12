@@ -10,7 +10,7 @@ if filename and os.path.isfile(filename):
 
 # sets version
 main_ns = {}
-ver_path = (os.path.dirname(os.path.abspath(__file__)) + '\\').replace('\\', '/') + 'ptap/_version.py'
+ver_path = (os.path.dirname(os.path.abspath(__file__)) + '\\').replace('\\', '/') + 'ptap/_version.py'  # win or osx
 with open(ver_path) as ver_file:
     exec(ver_file.read(), main_ns)
 

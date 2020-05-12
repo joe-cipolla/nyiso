@@ -39,6 +39,11 @@ def get_da_lmp(q_dates, zones=None):
     elif not isinstance(zones, list):
         raise ValueError('zones must be a single string or list of strings')
 
+    # check zones are valid
+    for zone in zones:
+        if zone not in default_zones:
+            raise ValueError(zone + ' is invalid')
+
     sql = '''   SELECT * FROM vw_nyiso_da_lmp
                 WHERE date in %s
                 AND zone in %s '''

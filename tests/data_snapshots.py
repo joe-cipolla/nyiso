@@ -1,8 +1,7 @@
-import pickle
+import pandas as pd
+import os
 
-test_dir = 'tbd/static/files/'
+proj_dir = os.path.dirname(os.path.abspath(__file__))
+data_dir = proj_dir.replace('/tests', '') + '/data/'
 
-with open(test_dir + 'default_df.pkl', 'rb') as df_obj_file:
-    default_df = pickle.load(df_obj_file)
-with open(test_dir + 'default_df_attr.pkl', 'rb') as df_obj_file:
-    default_df_attr = pickle.load(df_obj_file)
+default_df = pd.read_csv(data_dir + 'default_df.csv')
