@@ -2,6 +2,14 @@
 All notable changes to this project will be documented is this file.
 The format is based on [Keep a Changelog](https://keepchangelog.com/en/1.0.0/)
 
+## [0.0.2] - 2020-05-12
+### Added
+
+### Changed
+- project name to ptap (power trading analytics package)
+
+### Fixed
+
 
 ## [0.0.1] - 2020-05-11
 ### Added

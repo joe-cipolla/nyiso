@@ -10,7 +10,7 @@ if filename and os.path.isfile(filename):
 
 # sets version
 main_ns = {}
-ver_path = (os.path.dirname(os.path.abspath(__file__)) + '\\').replace('\\', '/') + 'nyiso_sql/_version.py'
+ver_path = (os.path.dirname(os.path.abspath(__file__)) + '\\').replace('\\', '/') + 'ptap/_version.py'
 with open(ver_path) as ver_file:
     exec(ver_file.read(), main_ns)
 
@@ -27,7 +27,7 @@ setup(
     long_description=open('README.md').read(),
     python_requires='>=3.7',
     install_requirements=[
-        'pandas', 'numpy', 'psycopg2', 'zipfile'
+        'pandas', 'numpy', 'psycopg2'
     ],
     classifiers=[
         "Programming language :: Python :: 3",

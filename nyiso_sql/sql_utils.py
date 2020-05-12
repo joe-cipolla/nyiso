@@ -2,7 +2,7 @@
 
 import psycopg2
 import pandas as pd
-import nyiso_sql.nyiso_sql.global_vars as gvars
+import ptap.nyiso_sql.global_vars as gvars
 
 conn_closed_msg = "PostgreSQL connection is close."
 
