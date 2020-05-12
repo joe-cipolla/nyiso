@@ -27,7 +27,7 @@ def load_data(start_date, end_date, data_types, root_path=gvars.root_dir):
                         + data_type + gvars.url_file_name_map[data_type][4] \
                         + '.' + gvars.url_file_name_map[data_type][2]
             records = pd.read_csv(file_path)
-            records = reformat_damlbmp(records, data_type)
+            records = reformat_source_data(records, data_type)
 
             qutil.bulk_insert_rows(
                 table_name,
@@ -37,7 +37,7 @@ def load_data(start_date, end_date, data_types, root_path=gvars.root_dir):
             print(file_date.strftime('%Y-%m-%d') + ' ' + str(data_type) + ' inserted into database')
 
 
-def reformat_damlbmp(df, data_type):
+def reformat_source_data(df, data_type):
 
     column_subset = gvars.url_file_column_map[data_type]
     time_stamp = column_subset[0]
@@ -63,7 +63,7 @@ def reformat_damlbmp(df, data_type):
         if is_dst == (1, 0):  # is dst start_date (has missing HE03)
             i_record.insert(2, i_record[1])
 
-        if data_type in ['damlbmp', 'realtime']:
+        if data_type in ['damlbmp', 'rtlbmp']:
             zone_name = df.index[i]
             zone_id = qutil.lookup_value_in_table('zone_id_with_iso_zone_name', zone_name)
             i_record.insert(0, zone_id)
@@ -76,4 +76,4 @@ def reformat_damlbmp(df, data_type):
 
 
 if __name__ == '__main__':
-    load_data('2000-01-01', '2020-05-07', ['realtime'])
+    load_data('2000-01-02', '2020-05-11', ['rtlbmp'])

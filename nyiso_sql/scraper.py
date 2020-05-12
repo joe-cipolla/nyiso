@@ -56,6 +56,6 @@ def scrape_data(start_date, end_date, root_path, data_types):
 
 
 if __name__ == '__main__':
-    scrape_data(start_date='1999-11-01', end_date='1999-12-31',
+    scrape_data(start_date='2000-01-01', end_date='2020-05-11',
                 root_path=gvars.root_dir,
-                data_types=['damlbmp'])
+                data_types=['rtlbmp'])

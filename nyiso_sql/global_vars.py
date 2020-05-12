@@ -10,7 +10,7 @@ t_pw = 'admin'
 url_file_name_map = {
     # 'data_type': ['archive_folder_name', 'oldest_available_archive_date', 'file_type', 'url_tag',
     # 'file_tag', 'table_name']
-    'realtime': ['realtime_zone', '2000-01-01', 'csv', '', '_zone', 'rt_lmp'],
+    'rtlbmp': ['rtlbmp_zone', '2000-01-01', 'csv', '', '_zone', 'rt_lmp'],
     'damlbmp': ['damlbmp_zone', '2000-01-01', 'csv', '', '_zone', 'da_lmp'],
     'rtasp': ['rtasp', '2005-02-01', 'csv', '', '', 'rt_asp'],
     'damasp': ['damasp', '2000-01-01', 'csv', '', '', 'da_asp'],
@@ -41,14 +41,20 @@ url_file_name_map = {
 
 url_file_column_map = {
     'damlbmp': ['Time Stamp', 'Name', 'LBMP ($/MWHr)'],
+    'rtlbmp': ['Time Stamp', 'Name', 'LBMP ($/MWHr)'],
 }
 
 select_datatype_by_date_id = {
-    'damlbmp': '''SELECT * FROM da_lmp WHERE date_id = %s'''
+    'damlbmp': '''SELECT * FROM da_lmp WHERE date_id = %s''',
+    'rtlbmp': '''SELECT * FROM rt_lmp WHERE date_id = %s'''
 }
 
 sql_insert_map = {
     'da_lmp': '''INSERT INTO da_lmp (date_id, zone_id, he01, he02, he03, he04, he05, he06, he07, he08, he09, he10,
+                 he11, he12, he13, he14, he15, he16, he17, he18, he19, he20, he21, he22, he23, he24)
+                 VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) 
+                 RETURNING id;''',
+    'rt_lmp': '''INSERT INTO rt_lmp (date_id, zone_id, he01, he02, he03, he04, he05, he06, he07, he08, he09, he10,
                  he11, he12, he13, he14, he15, he16, he17, he18, he19, he20, he21, he22, he23, he24)
                  VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) 
                  RETURNING id;''',
@@ -57,7 +63,8 @@ sql_insert_map = {
 }
 
 sql_drop_map = {
-    'da_lmp': '''DELETE FROM da_lmp WHERE id = %s;'''
+    'da_lmp': '''DELETE FROM da_lmp WHERE id = %s;''',
+    'rt_lmp': '''DELETE FROM rt_lmp WHERE id = %s;'''
 }
 
 sql_lookup_map = {
@@ -77,6 +84,6 @@ sql_lookup_map = {
 sql_date_check_map = {
     'damlbmp':      """SELECT dim_date.date FROM da_lmp
                        JOIN dim_date ON dim_date.id = da_lmp.date_id""",
-    'realtime':     """SELECT dim_date.date FROM rt_lmp
+    'rtlbmp':     """SELECT dim_date.date FROM rt_lmp
                        JOIN dim_date ON dim_date.id = rt_lmp.date_id"""
 }
