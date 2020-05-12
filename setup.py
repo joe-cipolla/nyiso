@@ -15,7 +15,7 @@ with open(ver_path) as ver_file:
     exec(ver_file.read(), main_ns)
 
 setup(
-    name='nyiso_sql',
+    name='ptap',
     version=main_ns['__version__'],
     author='Joe Cipolla',
     author_email='jlcipolla@gmail.com',
