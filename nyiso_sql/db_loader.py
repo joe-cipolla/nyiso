@@ -76,4 +76,4 @@ def reformat_damlbmp(df, data_type):
 
 
 if __name__ == '__main__':
-    load_data('2001-03-01', '2020-05-07', ['damlbmp'])
+    load_data('2000-01-01', '2020-05-07', ['realtime'])

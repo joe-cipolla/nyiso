@@ -10,10 +10,10 @@ t_pw = 'admin'
 url_file_name_map = {
     # 'data_type': ['archive_folder_name', 'oldest_available_archive_date', 'file_type', 'url_tag',
     # 'file_tag', 'table_name']
-    'realtime': ['realtime_zone', '1999-11-01', 'csv', '', '_zone', 'rt_lmp'],
-    'damlbmp': ['damlbmp_zone', '1999-11-01', 'csv', '', '_zone', 'da_lmp'],
+    'realtime': ['realtime_zone', '2000-01-01', 'csv', '', '_zone', 'rt_lmp'],
+    'damlbmp': ['damlbmp_zone', '2000-01-01', 'csv', '', '_zone', 'da_lmp'],
     'rtasp': ['rtasp', '2005-02-01', 'csv', '', '', 'rt_asp'],
-    'damasp': ['damasp', '1999-11-01', 'csv', '', '', 'da_asp'],
+    'damasp': ['damasp', '2000-01-01', 'csv', '', '', 'da_asp'],
     'schedlineoutages': ['SCLineOutages', '2002-07-01', 'csv', '', '', 'tbd'],
     'realtimelineoutages': ['RTLineOutages', '2008-11-01', 'csv', '', '', 'tbd'],
     'outSched': ['outSched', '2001-12-01', 'csv', '', '', 'tbd'],
@@ -24,9 +24,9 @@ url_file_name_map = {
     'eriecirculationrt': ['ErieCirculationRT', '2009-04-01', 'csv', '', '', 'tbd'],
     'parSchedule': ['parSchedule', '2001-08-01', 'txt', '', '', 'tbd'],
     'ParFlows': ['ParFlows', '2001-06-01', 'csv', '', '', 'tbd'],
-    'atc_ttc': ['atc_ttc', '1999-11-01', 'csv', '', '', 'tbd'],
+    'atc_ttc': ['atc_ttc', '2000-01-01', 'csv', '', '', 'tbd'],
     'ttcf': ['ttcf', '2014-10-01', 'csv', 'zip/', 'tbd'],
-    'isolf': ['isolf', '1999-11-01', 'csv', '', '', 'tbd'],
+    'isolf': ['isolf', '2000-01-01', 'csv', '', '', 'tbd'],
     'zonalBidLoad': ['zonalBidLoad', '2001-06-01', 'csv', '', '', 'tbd'],
     'lfweather': ['lfweather', '2008-09-01', 'csv', '', '', 'tbd'],
     'pal': ['pal', '2001-05-01', 'csv', '', '', 'tbd'],
@@ -72,4 +72,11 @@ sql_lookup_map = {
     'year_id':                      """SELECT year_id FROM dim_year WHERE year = %s""",
     'season_id':                    """SELECT season_id FROM dim_month WHERE month = %s""",
     'quarter_id':                   """SELECT quarter_id FROM dim_month WHERE month = %s""",
+}
+
+sql_date_check_map = {
+    'damlbmp':      """SELECT dim_date.date FROM da_lmp
+                       JOIN dim_date ON dim_date.id = da_lmp.date_id""",
+    'realtime':     """SELECT dim_date.date FROM rt_lmp
+                       JOIN dim_date ON dim_date.id = rt_lmp.date_id"""
 }

@@ -16,6 +16,9 @@ def scrape_data(start_date, end_date, root_path, data_types):
     :return:
     """
 
+    if data_types is None:
+        data_types = list(gvars.url_file_name_map.keys())
+
     for data_type in data_types:
 
         data_dir = root_path + data_type + '/'
@@ -53,10 +56,6 @@ def scrape_data(start_date, end_date, root_path, data_types):
 
 
 if __name__ == '__main__':
-    scrape_data(start_date='2001-01-01', end_date='2001-12-31',
+    scrape_data(start_date='1999-11-01', end_date='1999-12-31',
                 root_path=gvars.root_dir,
-                data_types=['realtime', 'damlbmp', 'rtasp', 'damasp', 'schedlineoutages', 'realtimelineoutages',
-                            'outSched', 'DAMLimitingConstraints', 'LimitingConstraints', 'ExternalLimitsFlows',
-                            'eriecirculationda', 'eriecirculationrt', 'parSchedule', 'ParFlows', 'atc_ttc', 'ttcf',
-                            'isolf', 'zonalBidLoad', 'lfweather', 'pal', 'damenergy', 'capacityreport', 'hamenergy',
-                            'RealTimeEvents', 'rtfuelmix', 'OperMessages', 'OpInCommit'])
+                data_types=['damlbmp'])

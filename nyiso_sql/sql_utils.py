@@ -179,7 +179,6 @@ def check_if_date_in_table(date_id, data_type):
 
     sql = gvars.select_datatype_by_date_id[data_type]
     sql = sql.replace('%s', date_id)
-
     conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
                             user=gvars.t_user, password=gvars.t_pw)
     df = pd.read_sql(sql, conn)
@@ -188,6 +187,31 @@ def check_if_date_in_table(date_id, data_type):
         date_in_table = True
 
     return date_in_table
+
+
+def check_if_missing_dates(data_type):
+
+    start_date = gvars.url_file_name_map[data_type][1]
+    end_date = '2020-05-07'
+    date_range = pd.date_range(start_date, end_date)
+    date_range = [i.strftime('%Y-%m-%d') for i in date_range]
+
+    sql = gvars.sql_date_check_map[data_type]
+    conn = psycopg2.connect(host=gvars.t_host, port=gvars.t_port, dbname=gvars.t_dbname,
+                            user=gvars.t_user, password=gvars.t_pw)
+
+    missing_dates = []
+    dates_in_table = pd.read_sql(sql, conn)
+    dates_in_table = dates_in_table.drop_duplicates('date')
+    dates_in_table = dates_in_table.date.sort_values().reset_index(drop=True)
+    dates_in_table = [i.strftime('%Y-%m-%d') for i in dates_in_table]
+
+    missing_dates = [i for i in date_range if i not in dates_in_table]
+
+    if len(missing_dates) == 0:
+        print('there are no missing dates in the table')
+    else:
+        print('the following dates are missing in the table ' + str(missing_dates))
 
 
 if __name__ == '__main__':
