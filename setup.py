@@ -26,7 +26,7 @@ setup(
     description='Library that scrapes, cleans, and loads NYISO data into PostgreSQL db.',
     long_description=open('README.md').read(),
     python_requires='>=3.7',
-    install_requirements=[
+    install_requires=[
         'pandas', 'numpy', 'psycopg2', 'requests'
     ],
     classifiers=[

@@ -1,5 +1,5 @@
 import pandas as pd
-import nyiso_sql as qutil
+import nyiso_sql.sql_utils as qutil
 
 date_range = pd.date_range('1999-01-01', '2034-12-31')
 
