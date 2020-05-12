@@ -40,6 +40,7 @@ def bulk_insert_rows(table_name, records, conn=None, cur=None, print_msg=False):
     """ inserts multiple rows into table
     :param table_name - string
     :param records - list of tuples, each with length = number of columns in table
+    i.e. [(1, 1, 1, 1, 1, 1), (2, 2, 2, 2, 2, 2)]
     :param conn - db connection
     :param cur - db cursor
     :param print_msg - boolean, whether or not to print messages
@@ -93,8 +94,8 @@ def drop_row(table_name, row_id, conn=None, cur=None):
 
 def bulk_drop_rows(table_name, row_ids, conn=None, cur=None):
     """drops all rows from table matching row_ids
-    :param table_name - string
-    :param row_ids - list of tuples
+    :param table_name - string   i.e. 'da_lmp'
+    :param row_ids - list of tuples, sql style   i.e. [(2, ), (3, ), (4, ), (5, )]
     :param conn - db connection
     :param cur - db cursor
     """
@@ -191,22 +192,3 @@ def check_if_date_in_table(date_id, data_type):
 
 if __name__ == '__main__':
     check_if_date_in_table('2020-05-01', 'damlbmp')
-
-    # insert_row(
-    #     'da_lmp',
-    #     (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
-    # )
-    # 
-    # bulk_insert_rows(
-    #     'da_lmp',
-    #     [(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-    #      (1, 1, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01,
-    #       0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01),
-    #      (1, 1, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50,
-    #       0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50),
-    #      (1, 1, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-    #       100, 100, 100, 100, 100, 100, 100, 100, 100, 100)]
-    # )
-    # 
-    # drop_row('da_lmp', 13)
-    # bulk_drop_rows('da_lmp', [(2, ), (3, ), (4, ), (5, )])
