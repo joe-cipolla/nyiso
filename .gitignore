@@ -134,3 +134,7 @@ dmypy.json
 
 # package source data
 data/
+
+# user params
+dashboard/params.py
+nyiso_sql/params.py
