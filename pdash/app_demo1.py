@@ -11,6 +11,16 @@ df1 = pd.read_csv('https://gist.githubusercontent.com/chriddyp/c78bf172206ce24f7
 df2 = pd.read_csv('https://gist.githubusercontent.com/chriddyp/5d1ea79569ed194d432e56108a04d188/raw/'
                   'a9f9e8076b837d541398e999dcbac2b2826a81f8/gdp-life-exp-2007.csv')
 
+markdown_text = '''
+### Dash and Markdown
+
+Dash apps can be written in Markdown.
+Dash uses the [CommonMark](http://commonmark.org/)
+specification of Markdown.
+Check out their [60 Second Markdown Tutorial](http://commonmark.org/help/)
+if this is your first introduction to Markdown!
+'''
+
 
 def generate_table(df, max_rows=10):
     return html.Table([
@@ -35,6 +45,11 @@ colors = {
 }
 
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
+
+    dcc.Markdown(children=markdown_text),
+
+    dcc.Markdown('''---'''),
+
     html.H1(
         children='Hello Dash',
         style={
@@ -50,6 +65,8 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             'color': colors['text']
         }
     ),
+
+    dcc.Markdown('''---'''),
 
     dcc.Graph(
         id='example-graph-2',
@@ -69,8 +86,12 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         }
     ),
 
+    dcc.Markdown('''---'''),
+
     html.H4(children='US Agriculture Exports (2011)'),
     generate_table(df1),
+
+    dcc.Markdown('''---'''),
 
     dcc.Graph(
         id='life-exp-vs-gdp',
