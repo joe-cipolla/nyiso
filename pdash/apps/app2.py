@@ -5,7 +5,12 @@ from dash.dependencies import Input, Output
 from pdash.app import app
 
 layout = html.Div([
-    html.H3('App 2'),
+    dcc.Tabs(id="tabs", value='tab-1', children=[
+        dcc.Tab(label='Tab one', value='tab-1'),
+        dcc.Tab(label='Tab two', value='tab-2'),
+    ]),
+    html.Div(id='app2-tabs-content'),
+
     dcc.Dropdown(
         id='app-2-dropdown',
         options=[
@@ -24,3 +29,16 @@ layout = html.Div([
     [Input('app-2-dropdown', 'value')])
 def display_value(value):
     return 'You have selected "{}"'.format(value)
+
+
+@app.callback(Output('app2-tabs-content', 'children'),
+              [Input('tabs', 'value')])
+def render_content(tab):
+    if tab == 'tab-1':
+        return html.Div([
+            html.H3('Tab content 1')
+        ])
+    elif tab == 'tab-2':
+        return html.Div([
+            html.H3('Tab content 2')
+        ])

@@ -6,6 +6,10 @@ from pdash.app import app
 from pdash.apps import app1, app2
 
 
+# instructions...
+# https://dash.plotly.com/urls
+
+
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content')
