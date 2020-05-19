@@ -7,8 +7,10 @@ import dash_table
 import pandas as pd
 from dash.dependencies import Input, Output
 from dashboard.app import app
+from dashboard import test_data
 
-df = pd.read_csv('data/default_df.csv')
+
+df = test_data.default_df
 PAGE_SIZE = 50
 
 layout = html.Div(

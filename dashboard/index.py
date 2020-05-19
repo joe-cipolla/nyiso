@@ -9,6 +9,7 @@ import sqlite3
 import pandas as pd
 from dashboard.app import app
 from dashboard.tabs import side_panel, tab_1, tab_2, tab_3, navbar
+from dashboard import test_data
 
 
 app.layout = html.Div([navbar.Navbar()
@@ -72,7 +73,7 @@ def split_filter_part(filter_part):
        ])
 def update_table(page_current, page_size, sort_by, filter, ratingcheck, prices, country, province, variety):
     filtering_expressions = filter.split(' && ')
-    dff = pd.read_csv('data/default_df.csv')
+    dff = test_data.default_df
 
 
     low = prices[0]

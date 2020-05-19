@@ -4,10 +4,10 @@ from dash.dependencies import Input, Output
 import plotly.graph_objs as go
 import pandas as pd
 from dashboard.app import app
-from dashboard.database import transforms
+from dashboard import test_data
 
 
-df = pd.read_csv('data/default_df.csv')
+df = test_data.default_df
 
 layout = html.Div([
     html.Div([html.H3("Visualize:")], style={'textAlign': "Left"}),
@@ -29,7 +29,7 @@ layout = html.Div([
 
      ])
 def update_figure(zone, date, province):
-    dff = transforms.df
+    dff = pd.read_csv('data/default_df.csv')
     dff = dff.groupby(['zone', 'date']).mean().reset_index()
     dff = dff.loc[dff['zone'].isin(zone)]
 

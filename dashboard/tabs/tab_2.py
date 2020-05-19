@@ -7,10 +7,10 @@ import plotly.graph_objs as go
 from dash.dependencies import Input, Output
 import dash_table
 from dashboard.app import app
-from dashboard.database import transforms
+from dashboard import test_data
 
 
-df = pd.read_csv('data/default_df.csv')
+df = test_data.default_df
 
 layout = html.Div(
     id='table-paging-with-graph-container',

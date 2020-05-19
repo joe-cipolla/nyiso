@@ -8,9 +8,10 @@ import pandas as pd
 from dash.dependencies import Input, Output
 from dashboard.app import app
 from dashboard.tabs import tab_1, tab_2
+from dashboard import test_data
 
 
-df = pd.read_csv('data/default_df.csv')
+df = test_data.default_df
 min_p = df.date.min()
 max_p = df.date.max()
 layout = html.Div([
@@ -68,7 +69,7 @@ layout = html.Div([
 
 
 @app.callback(Output('province-drop', 'options'),
-              [Input('country-drop', 'value')])
+              [Input('zone-drop', 'value')])
 def set_province_options(country):
     if len(country) > 0:
         countries = country
