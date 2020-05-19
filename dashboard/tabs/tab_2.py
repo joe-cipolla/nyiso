@@ -8,6 +8,7 @@ from dash.dependencies import Input, Output
 import dash_table
 from dashboard.app import app
 from dashboard import test_data
+from dashboard.tabs import side_panel
 
 
 df = test_data.default_df
@@ -15,12 +16,13 @@ df = test_data.default_df
 layout = html.Div(
     id='table-paging-with-graph-container',
     className="five columns"
-) @ app.callback(Output('table-paging-with-graph-container', "children"),
-                 [Input('rating-95', 'value')
-                     , Input('price-slider', 'value')
-                  ])
+)
 
 
+@ app.callback(
+    Output('table-paging-with-graph-container', "children"),
+    [Input('rating-95', 'value'), side_panel.Input('price-slider', 'value')]
+)
 def update_graph(ratingcheck, prices):
     dff = df
     low = prices[0]

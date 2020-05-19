@@ -22,34 +22,33 @@ layout = html.Div([
 
 @app.callback(
     Output("ru-my-heatmap", "figure"),
-    [Input("country-drop", "value")
-        , Input("province-drop", "value")
+    [Input("iso-drop", "value")
+        , Input("zone-drop", "value")
         , Input("selected-feature", "value")
-        , Input("variety-drop", 'value')
-
+        , Input("date-drop", 'value')
      ])
-def update_figure(zone, date, province):
-    dff = pd.read_csv('data/default_df.csv')
+def update_figure(iso, date, zone):
+    dff = test_data.default_df
     dff = dff.groupby(['zone', 'date']).mean().reset_index()
     dff = dff.loc[dff['zone'].isin(zone)]
 
-    if province is None:
-        province = []
+    if zone is None:
+        zone = []
 
-    if len(zone) > 0 and len(province) > 0 and len(date) > 0:
-        dff = dff.loc[dff['zone'].isin(zone) & dff['province'].isin(province) & dff['date'].isin(date)]
+    if len(iso) > 0 and len(zone) > 0 and len(date) > 0:
+        dff = dff.loc[dff['zone'].isin(zone) & dff['zone'].isin(zone) & dff['date'].isin(date)]
 
-    elif len(zone) > 0 and len(province) > 0 and len(date) == 0:
-        dff = dff.loc[dff['zone'].isin(zone) & dff['province'].isin(province)]
+    elif len(iso) > 0 and len(zone) > 0 and len(date) == 0:
+        dff = dff.loc[dff['zone'].isin(zone) & dff['zone'].isin(zone)]
 
-    elif len(zone) > 0 and len(province) == 0 and len(date) > 0:
+    elif len(iso) > 0 and len(zone) == 0 and len(date) > 0:
         dff = dff.loc[dff['zone'].isin(zone) & dff['date'].isin(date)]
 
-    elif len(zone) > 0 and len(province) == 0 and len(date) == 0:
+    elif len(iso) > 0 and len(zone) == 0 and len(date) == 0:
         dff = dff.loc[dff['zone'].isin(zone)]
 
-    trace = go.Heatmap(z=dff[province]
-                       , x=dff['zone']
+    trace = go.Heatmap(z=dff[zone]
+                       , x=dff['iso']
                        , y=dff['date']
                        , hoverongaps=True
                        , colorscale='rdylgn', colorbar={"title": "Average", 'x': -.09}, showscale=True)

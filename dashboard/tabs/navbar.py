@@ -15,7 +15,7 @@ def Navbar():
                 label="More",
             ),
         ],
-        brand="Wine Dash",
+        brand="NYISO Dash",
         color="primary",
         dark=True,
     )

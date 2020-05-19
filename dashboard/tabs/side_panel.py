@@ -49,8 +49,8 @@ layout = html.Div([
                                    multi=True)
                       ])
             , html.Div([html.P()
-                           , html.H5('HE')
-                           , dcc.Dropdown(id='variety-drop',
+                           , html.H5('ISO')
+                           , dcc.Dropdown(id='iso-drop',
                                           value=[],
                                           multi=True)
                         ])],
@@ -68,23 +68,23 @@ layout = html.Div([
 ])
 
 
-@app.callback(Output('province-drop', 'options'),
+@app.callback(Output('zone-drop', 'options'),
               [Input('zone-drop', 'value')])
-def set_province_options(country):
-    if len(country) > 0:
-        countries = country
-        return [{'label': i, 'value': i} for i in sorted(set(df['province'].loc[df['country'].isin(countries)]))]
+def set_zone_options(iso):
+    if len(iso) > 0:
+        countries = iso
+        return [{'label': i, 'value': i} for i in sorted(set(df['zone'].loc[df['iso'].isin(countries)]))]
     else:
         countries = []
-        return [{'label': i, 'value': i} for i in sorted(set(df['province'].loc[df['country'].isin(countries)]))]
+        return [{'label': i, 'value': i} for i in sorted(set(df['zone'].loc[df['iso'].isin(countries)]))]
 
 
-@app.callback(Output('variety-drop', 'options'),
-              [Input('province-drop', 'value')])
-def set_variety_options(province):
-    if len(province) > 0:
-        provinces = province
-        return [{'label': i, 'value': i} for i in sorted(set(df['variety'].loc[df['province'].isin(provinces)]))]
+@app.callback(Output('date-drop', 'options'),
+              [Input('zone-drop', 'value')])
+def set_date_options(zone):
+    if len(zone) > 0:
+        zones = zone
+        return [{'label': i, 'value': i} for i in sorted(set(df['date'].loc[df['zone'].isin(zones)]))]
     else:
-        provinces = []
-        return [{'label': i, 'value': i} for i in sorted(set(df['variety'].loc[df['province'].isin(provinces)]))]
+        zones = []
+        return [{'label': i, 'value': i} for i in sorted(set(df['date'].loc[df['zone'].isin(zones)]))]

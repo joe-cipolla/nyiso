@@ -67,35 +67,35 @@ def split_filter_part(filter_part):
         , Input('table-sorting-filtering', 'filter_query')
         , Input('rating-95', 'value')
         , Input('price-slider', 'value')
-        , Input('country-drop', 'value')
-        , Input('province-drop', 'value')
-        , Input('variety-drop', 'value')
+        , Input('iso-drop', 'value')
+        , Input('zone-drop', 'value')
+        , Input('date-drop', 'value')
        ])
-def update_table(page_current, page_size, sort_by, filter, ratingcheck, prices, country, province, variety):
+def update_table(page_current, page_size, sort_by, filter, ratingcheck, prices, iso, zone, date):
     filtering_expressions = filter.split(' && ')
     dff = test_data.default_df
 
 
     low = prices[0]
     high = prices[1]
-    dff = dff.loc[(dff['price'] >= low) & (dff['price'] <= high)]
-    if province is None:
-        province = []
-    if variety is None:
-        variety = []
+    dff = dff.loc[(dff['HE01'] >= low) & (dff['HE18'] <= high)]
+    if zone is None:
+        zone = []
+    if date is None:
+        date = []
 
-    if len(country) > 0 and len(province) > 0 and len(variety) > 0:
-        dff = dff.loc[dff['country'].isin(country) & dff['province'].isin(province) & dff['variety'].isin(variety)]
-    elif len(country) > 0 and len(province) > 0 and len(variety) == 0:
-        dff = dff.loc[dff['country'].isin(country) & dff['province'].isin(province)]
-    elif len(country) > 0 and len(province) == 0 and len(variety) > 0:
-        dff = dff.loc[dff['country'].isin(country) & dff['variety'].isin(variety)]
-    elif len(country) > 0 and len(province) == 0 and len(variety) == 0:
-        dff = dff.loc[dff['country'].isin(country)]
+    if len(iso) > 0 and len(zone) > 0 and len(date) > 0:
+        dff = dff.loc[dff['iso'].isin(iso) & dff['zone'].isin(zone) & dff['date'].isin(date)]
+    elif len(iso) > 0 and len(zone) > 0 and len(date) == 0:
+        dff = dff.loc[dff['iso'].isin(iso) & dff['zone'].isin(zone)]
+    elif len(iso) > 0 and len(zone) == 0 and len(date) > 0:
+        dff = dff.loc[dff['iso'].isin(iso) & dff['date'].isin(date)]
+    elif len(iso) > 0 and len(zone) == 0 and len(date) == 0:
+        dff = dff.loc[dff['iso'].isin(iso)]
     else:
         dff
     if ratingcheck == ['Y']:
-        dff = dff.loc[dff['rating'] >= 95]
+        dff = dff.loc[dff['HE05'] >= 5]
     else:
         dff
     for filter_part in filtering_expressions:
