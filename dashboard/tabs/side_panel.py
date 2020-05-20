@@ -11,6 +11,11 @@ from dashboard.tabs import tab_1, tab_2
 from dashboard import test_data
 
 
+all_options = {
+    'NYISO': ['CAPITL', 'HUD_VL'],
+    'NEPOOL': ['MASS_HUB']
+}
+
 df = test_data.default_df
 # min_p = df['he01'].min()
 # max_p = df['he16'].max()
@@ -26,8 +31,8 @@ layout = html.Div([
                 html.P(),
                 html.H5('ISO'),
                 dcc.Dropdown(id='iso-drop',
-                             options=[{'iso': i, 'value': i} for i in df.iso.unique()],
-                             value=[],
+                             options=[{'label': i, 'value': i} for i in df.iso.unique()],
+                             value=['NYISO'],
                              multi=True)
             ]),
 
@@ -35,13 +40,10 @@ layout = html.Div([
                 html.P(),
                 html.H5('Zone'),
                 dcc.Dropdown(id='zone-drop',
-                             options=[{'zone': i, 'value': i} for i in df.zone.unique()],
-                             value=[],
+                             options=[{'label': i, 'value': i} for i in df.zone.unique()],
                              multi=True)
             ]),
 
-            dcc.Checklist(id='rating-95',
-                          options=[{'he01': 'Only HE01 >= $5 ', 'value': 'Y'}]),
             html.Div([
                 html.P(),
                 html.H5('Price Slider'),
@@ -65,18 +67,27 @@ layout = html.Div([
 
 
 @app.callback(Output('zone-drop', 'options'),
-              [Input('zone-drop', 'value')])
-def set_zone_options(zones):
-    if len(zones) > 0:
-        return [{'label': i, 'value': i} for i in sorted(set(df['zone'].loc[df['iso'].isin(zones)]))]
+              [Input('iso-drop', 'value')])
+def set_zone_options(isos):
+    if len(isos) > 0:
+        return [{'label': i, 'value': i} for i in [e for a in [all_options[iso] for iso in isos] for e in a]]
     else:
-        return df.zone.unique().tolist()
+        return [{'label': i, 'value': i} for i in [e for a in list(all_options.values()) for e in a]]
+
+
+@app.callback(Output('zone-drop', 'value'),
+              [Input('zone-drop', 'options')])
+def set_zone_value(available_options):
+    return available_options[0]['value']
 
 
 @app.callback(Output('iso-drop', 'options'),
               [Input('zone-drop', 'value')])
-def set_iso_options(isos):
-    if len(isos) > 0:
-        return [{'label': i, 'value': i} for i in sorted(set(df['zone'].loc[df['iso'].isin(isos)]))]
+def set_iso_options(zones):
+    if len(zones) > 0:
+        return [{'label': i, 'value': i} for i in sorted(df[df.zone.isin(zones)].iso.unique().tolist())]
     else:
-        return df.iso.unique().tolist()
+        return [{'label': i, 'value': i} for i in sorted(df.iso.unique().tolist())]
+
+
+

@@ -41,19 +41,19 @@ def update_figure(iso, zone, date):
         zone = []
 
     if len(iso) > 0 and len(zone) > 0 and len(date) > 0:
-        dff = dff.loc[dff['zone'].isin(zone) & dff['zone'].isin(zone) & dff['date'].isin(date)]
+        dff = dff.loc[dff['iso'].isin(iso) & dff['zone'].isin(zone) & dff['date'].isin(date)]
 
     elif len(iso) > 0 and len(zone) > 0 and len(date) == 0:
-        dff = dff.loc[dff['zone'].isin(zone) & dff['zone'].isin(zone)]
+        dff = dff.loc[dff['iso'].isin(iso) & dff['zone'].isin(zone)]
 
     elif len(iso) > 0 and len(zone) == 0 and len(date) > 0:
-        dff = dff.loc[dff['zone'].isin(zone) & dff['date'].isin(date)]
+        dff = dff.loc[dff['iso'].isin(iso) & dff['date'].isin(date)]
 
     elif len(iso) > 0 and len(zone) == 0 and len(date) == 0:
         dff = dff.loc[dff['zone'].isin(zone)]
 
     trace = go.Heatmap(
-        z=dff[zone],
+        z=dff['zone'],
         x=dff['iso'],
         y=dff['date'],
         hoverongaps=True, colorscale='rdylgn', colorbar={"title": "Average", 'x': -.09}, showscale=True)

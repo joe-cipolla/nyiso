@@ -21,17 +21,14 @@ layout = html.Div(
 
 @ app.callback(
     Output('table-paging-with-graph-container', "children"),
-    [Input('rating-95', 'value'), side_panel.Input('price-slider', 'value')]
+    [side_panel.Input('price-slider', 'value')]
 )
-def update_graph(ratingcheck, prices):
+def update_graph(prices):
     dff = df
     low = prices[0]
     high = prices[1]
 
-    dff = dff.loc[(dff['he01'] >= low) & (dff['he01'] <= high)]
-
-    if ratingcheck == ['Y']:
-        dff = dff.loc[dff['he02'] >= 10]
+    dff = dff.loc[(dff['he01'] >= low) & (dff['he16'] <= high)]
 
     trace1 = go.Scattergl(
         x=dff['he02'],

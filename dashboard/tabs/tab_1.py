@@ -18,7 +18,7 @@ layout = html.Div(
         id='table-sorting-filtering',
         columns=[
             {'name': i, 'id': i, 'deletable': True} for i in
-            df[['date', 'zone', 'he01', 'he02', 'he03', 'he04', 'he05', 'he06', 'he07',
+            df[['date', 'iso', 'zone', 'he01', 'he02', 'he03', 'he04', 'he05', 'he06', 'he07',
                 'he08', 'he09', 'he10', 'he11', 'he12', 'he13', 'he14', 'he15', 'he16',
                 'he17', 'he18', 'he19', 'he20', 'he21', 'he22', 'he23', 'he24']]
         ],

@@ -5,7 +5,6 @@ import dash_html_components as html
 import dash_table
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
-import sqlite3
 import pandas as pd
 from dashboard.app import app
 from dashboard.tabs import side_panel, tab_1, tab_2, tab_3, navbar
@@ -66,12 +65,11 @@ def split_filter_part(filter_part):
      Input('table-sorting-filtering', "page_size"),
      Input('table-sorting-filtering', 'sort_by'),
      Input('table-sorting-filtering', 'filter_query'),
-     Input('rating-95', 'value'),
      Input('price-slider', 'value'),
      Input('iso-drop', 'value'),
      Input('zone-drop', 'value')]
 )
-def update_table(page_current, page_size, sort_by, filter, ratingcheck, prices, iso, zone, date):
+def update_table(page_current, page_size, sort_by, filter, prices, iso, zone):
     filtering_expressions = filter.split(' && ')
     dff = test_data.default_df
 
@@ -80,21 +78,13 @@ def update_table(page_current, page_size, sort_by, filter, ratingcheck, prices, 
     dff = dff.loc[(dff['HE01'] >= low) & (dff['HE18'] <= high)]
     if zone is None:
         zone = []
-    if date is None:
-        date = []
 
-    if len(iso) > 0 and len(zone) > 0 and len(date) > 0:
-        dff = dff.loc[dff['iso'].isin(iso) & dff['zone'].isin(zone) & dff['date'].isin(date)]
-    elif len(iso) > 0 and len(zone) > 0 and len(date) == 0:
+    if len(iso) > 0 and len(zone) > 0:
         dff = dff.loc[dff['iso'].isin(iso) & dff['zone'].isin(zone)]
-    elif len(iso) > 0 and len(zone) == 0 and len(date) > 0:
-        dff = dff.loc[dff['iso'].isin(iso) & dff['date'].isin(date)]
-    elif len(iso) > 0 and len(zone) == 0 and len(date) == 0:
+    elif len(iso) > 0 and len(zone) == 0:
         dff = dff.loc[dff['iso'].isin(iso)]
-    else:
-        dff
-    if ratingcheck == ['Y']:
-        dff = dff.loc[dff['HE05'] >= 5]
+    elif len(iso) == 0 and len(zone) > 0:
+        dff = dff.loc[dff['zone'].isin(zone)]
     else:
         dff
     for filter_part in filtering_expressions:
