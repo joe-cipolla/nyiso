@@ -12,8 +12,10 @@ from dashboard import test_data
 
 
 df = test_data.default_df
-min_p = df.date.min()
-max_p = df.date.max()
+# min_p = df['he01'].min()
+# max_p = df['he16'].max()
+min_p = 0
+max_p = 50
 layout = html.Div([
     html.H1('NYISO Dash'),
     dbc.Row([dbc.Col(
@@ -27,19 +29,19 @@ layout = html.Div([
                                       min=min_p,
                                       max=max_p,
                                       marks={0: '$0',
-                                             500: '$500',
-                                             1000: '$1000',
-                                             1500: '$1500',
-                                             2000: '$2000',
-                                             2500: '$2500',
-                                             3000: '$3000'},
-                                      value=[0, 3300])
+                                             10: '$10',
+                                             15: '$15',
+                                             20: '$20',
+                                             25: '$25',
+                                             30: '$30',
+                                             35: '$35'},
+                                      value=[0, 9999])
                       ]),
             html.Div([html.P(),
                       html.H5('Zone'),
                       dcc.Dropdown(id='zone-drop',
                                    options=[{'zone': i, 'value': i} for i in df.zone.unique()],
-                                   value=['US'],
+                                   value=['CAPITL'],
                                    multi=True)
                       ]),
             html.Div([html.P(),
