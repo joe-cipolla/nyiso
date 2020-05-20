@@ -38,23 +38,18 @@ def update_graph(ratingcheck, prices):
         y=dff['he01'],
         mode='markers',
         opacity=0.7,
-        marker={
-            'size': 8, 'line': {'width': 0.5, 'color': 'white'}
-        },
+        marker={'size': 8, 'line': {'width': 0.5, 'color': 'white'}},
         name='HE01 v HE02'
     )
     return html.Div([
         dcc.Graph(
             id='rating-price',
-            figure={
-                'data': [trace1],
-                'layout': dict(
-                    xaxis={'type': 'log', 'title': 'he02'},
-                    yaxis={'title': 'he01'},
-                    margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
-                    legend={'x': 0, 'y': 1},
-                    hovermode='closest'
-                )
-            }
+            figure={'data': [trace1],
+                    'layout': dict(xaxis={'type': 'log', 'title': 'he02'},
+                                   yaxis={'title': 'he01'},
+                                   margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
+                                   legend={'x': 0, 'y': 1},
+                                   hovermode='closest')
+                    }
         )
     ])
