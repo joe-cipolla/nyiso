@@ -75,7 +75,7 @@ def update_table(page_current, page_size, sort_by, filter, prices, iso, zone):
 
     low = prices[0]
     high = prices[1]
-    dff = dff.loc[(dff['HE01'] >= low) & (dff['HE18'] <= high)]
+    dff = dff.loc[(dff['he01'] >= low) & (dff['he18'] <= high)]
     if zone is None:
         zone = []
 

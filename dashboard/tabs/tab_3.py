@@ -33,12 +33,19 @@ layout = html.Div([
      Input("selected-feature", "value")
      ])
 def update_figure(iso, zone, date):
+    if zone is None:
+        zone = []
+    if not isinstance(zone, list):
+        zone = [zone]
+    if iso is None:
+        iso = []
+    if not isinstance(iso, list):
+        iso = [iso]
+
+
     dff = test_data.default_df
     dff = dff.groupby(['zone', 'date']).mean().reset_index()
     dff = dff.loc[dff['zone'].isin(zone)]
-
-    if zone is None:
-        zone = []
 
     if len(iso) > 0 and len(zone) > 0 and len(date) > 0:
         dff = dff.loc[dff['iso'].isin(iso) & dff['zone'].isin(zone) & dff['date'].isin(date)]

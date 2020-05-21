@@ -85,6 +85,8 @@ def set_zone_value(available_options):
               [Input('zone-drop', 'value')])
 def set_iso_options(zones):
     if len(zones) > 0:
+        if not isinstance(zones, list):
+            zones = [zones]
         return [{'label': i, 'value': i} for i in sorted(df[df.zone.isin(zones)].iso.unique().tolist())]
     else:
         return [{'label': i, 'value': i} for i in sorted(df.iso.unique().tolist())]
