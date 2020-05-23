@@ -27,7 +27,7 @@ setup(
     long_description=open('README.md').read(),
     python_requires='>=3.7',
     install_requires=[
-        'pandas', 'numpy', 'psycopg2', 'requests', 'chart_studio', 'plotly', 'dash'
+        'pandas', 'numpy', 'psycopg2', 'requests', 'chart_studio', 'plotly', 'dash', 'gitpython'
     ],
     classifiers=[
         "Programming language :: Python :: 3",

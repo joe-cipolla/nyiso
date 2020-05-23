@@ -1,7 +1,10 @@
 import pandas as pd
+import git
+import os
 
 
-default_df = pd.read_csv('dashboard/nyiso_rt.csv')
+repo_path = git.Repo(os.getcwd(), search_parent_directories=True).git.rev_parse("--show-toplevel")
+default_df = pd.read_csv(repo_path + '/dashboard/nyiso_rt.csv')
 
 test_df = pd.DataFrame({
     'date': ['2020-05-05', '2020-05-04', '2020-05-03', '2020-05-02', '2020-05-01', '2020-04-30', '2020-04-29',

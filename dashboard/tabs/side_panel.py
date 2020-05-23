@@ -11,12 +11,12 @@ from dashboard.tabs import tab_1, tab_2
 from dashboard import test_data
 
 
-all_options = {
-    'NYISO': ['CAPITL', 'HUD_VL'],
-    'NEPOOL': ['MASS_HUB']
-}
-
 df = test_data.default_df
+
+all_options = {}
+for iso in df.iso.unique():
+    all_options[iso] = df[df.iso == iso].zone.unique().tolist()
+
 # min_p = df['he01'].min()
 # max_p = df['he16'].max()
 min_p = 0
