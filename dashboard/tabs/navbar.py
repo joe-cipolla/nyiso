@@ -1,9 +1,21 @@
 import dash_bootstrap_components as dbc
+import dash_html_components as html
 
 
 def Navbar():
-    navbar = dbc.NavbarSimple(
-        children=[
+    navbar = dbc.Navbar(
+        [
+            html.A(
+                dbc.Row(
+                    [
+                        dbc.Col(html.Img(src='images/logo_inv.jpg', height="30px")),
+                        dbc.Col(dbc.NavbarBrand("Power Trading Analytics", className="ml-2"))
+                    ],
+                    align="center",
+                    no_gutters=True,
+                ),
+                href="https://github.com/joe-cipolla/ptap"
+            ),
             dbc.NavItem(dbc.NavLink("Home", href="/index")),
             dbc.DropdownMenu(
                 children=[
@@ -15,8 +27,7 @@ def Navbar():
                 label="More",
             ),
         ],
-        brand="NYISO Dash",
-        color="primary",
+        color="dark",
         dark=True,
     )
     return navbar
