@@ -17,12 +17,22 @@ all_options = {}
 for iso in df.iso.unique():
     all_options[iso] = df[df.iso == iso].zone.unique().tolist()
 
-# min_p = df['he01'].min()
-# max_p = df['he16'].max()
-min_p = 0
-max_p = 50
+he_cols = [i for i in df.columns if i[:2] == 'he']
+df_std = df[he_cols].std().mean().round(-1)
+df_mean = df[he_cols].mean().mean().round(-1)
+df_min = df[he_cols].min().min().round(-1)
+df_max = df[he_cols].max().max().round(-1)
+slider_inc = df_std/2/2
+slider_vals = {
+    i: str(i) for i in range(int(df_mean - (slider_inc * 5)),
+                             int(df_mean + (slider_inc * 5)),
+                             int(slider_inc))
+}
+slider_min = int(df_mean - (df_std * 2))
+slider_max = int(df_mean + (df_std * 2))
+
 layout = html.Div([
-    html.H1('NYISO Dash'),
+    html.H1('ISO Dash'),
     dbc.Row([
         dbc.Col(html.Div([
             html.H2('Filters'),
@@ -46,12 +56,13 @@ layout = html.Div([
 
             html.Div([
                 html.P(),
-                html.H5('Price Slider'),
+                html.H5('Price Slider ($/mwh)'),
                 dcc.RangeSlider(id='price-slider',
-                                min=min_p,
-                                max=max_p,
-                                marks={0: '$0', 10: '$10', 15: '$15', 20: '$20', 25: '$25', 30: '$30', 35: '$35'},
-                                value=[0, 9999])
+                                min=slider_min,
+                                max=slider_max,
+                                marks=slider_vals,
+                                value=[slider_min, slider_max],
+                                persistence=True)
             ]),
         ], style={'marginBottom': 50, 'marginTop': 25, 'marginLeft': 15, 'marginRight': 15}), width=3),
         dbc.Col(html.Div([
@@ -81,15 +92,15 @@ def set_zone_value(available_options):
     return available_options[0]['value']
 
 
-@app.callback(Output('iso-drop', 'options'),
-              [Input('zone-drop', 'value')])
-def set_iso_options(zones):
-    if len(zones) > 0:
-        if not isinstance(zones, list):
-            zones = [zones]
-        return [{'label': i, 'value': i} for i in sorted(df[df.zone.isin(zones)].iso.unique().tolist())]
-    else:
-        return [{'label': i, 'value': i} for i in sorted(df.iso.unique().tolist())]
+# @app.callback(Output('iso-drop', 'options'),
+#               [Input('zone-drop', 'value')])
+# def set_iso_options(zones):
+#     if len(zones) > 0:
+#         if not isinstance(zones, list):
+#             zones = [zones]
+#         return [{'label': i, 'value': i} for i in sorted(df[df.zone.isin(zones)].iso.unique().tolist())]
+#     else:
+#         return [{'label': i, 'value': i} for i in sorted(df.iso.unique().tolist())]
 
 
 
