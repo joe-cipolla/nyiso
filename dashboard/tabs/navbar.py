@@ -1,5 +1,6 @@
 import dash_bootstrap_components as dbc
 import dash_html_components as html
+from dashboard.app import app
 
 
 def Navbar():
@@ -8,7 +9,8 @@ def Navbar():
             html.A(
                 dbc.Row(
                     [
-                        dbc.Col(html.Img(src='images/logo_inv.jpg', height="30px")),
+                        dbc.Col(html.Img(src=app.get_asset_url('plug_logo.png'),
+                                         height="50px")),
                         dbc.Col(dbc.NavbarBrand("Power Trading Analytics", className="ml-2"))
                     ],
                     align="center",
