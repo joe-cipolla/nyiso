@@ -78,6 +78,12 @@ def update_table(page_current, page_size, sort_by, filter, prices, iso, zone):
     dff = dff.loc[(dff['he01'] >= low) & (dff['he18'] <= high)]
     if zone is None:
         zone = []
+    if iso is None:
+        iso = []
+    if not isinstance(zone, list):
+        zone = [zone]
+    if not isinstance(iso, list):
+        iso = [iso]
 
     if len(iso) > 0 and len(zone) > 0:
         dff = dff.loc[dff['iso'].isin(iso) & dff['zone'].isin(zone)]
